@@ -1,0 +1,978 @@
+    
+    /* 整个网页的基础板式 */
+    body {
+        background: transparent;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: normal;
+        /* font-size: large; */
+        text-align: left;
+        margin: 0;
+        height: 100vh;
+        /* display: flex; */
+        min-height: 100vh;    
+    }
+
+    h1 {
+        font-size: 18px;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: small;
+        line-height: 1.2;
+        color: black;
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.2;
+    }
+
+    .image {
+        display: none;
+        position: absolute;
+
+        animation: float 4s ease-in-out infinite;
+        object-fit: contain;
+    }
+
+
+
+    button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid #ffffff;
+
+    }
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        
+        width: 200px;
+        height: 20px;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    /* 轨道 */
+    input[type="range"]::-webkit-slider-runnable-track {
+        height: 40px;
+        background: #474747;
+        border-radius: 999px;
+        border: 1px solid #ffffff;
+    }
+
+    /* 滑块 */
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-bottom: 30px;
+
+        background: #000000;
+        border: 1px solid #ffffff;
+
+        margin-top: 0px;
+    }
+
+/* 松树页面（会被打印） */
+    .left {
+        position: relative;
+        flex: 1;
+        background: transparent;
+        overflow-x: auto;
+        overflow-y: hidden;
+        max-width: 3000px;
+        height: 1200px;
+        min-height: 100vh;
+        width: 100%;
+        padding:20px;
+        box-sizing: border-box;
+    }
+
+
+/* 操作区域 */
+.right {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    bottom: 0;
+
+    height: calc(100vh - 40px);
+    width: 20vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+
+    background: transparent;
+    box-sizing: border-box;
+    z-index: 20;
+}
+
+/* 不同的操作功能 */
+/* 树冠-文本的增加链接图片组的增加 */
+    .crown {
+        background-color:rgb(0, 0, 0) ;
+        padding: 20px;
+        width: 400px;
+
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+    }
+
+
+    /* .function-area1 {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: 12px;
+    } */
+
+    .pattern {
+        background-color: rgb(0, 0, 0);
+        width: 200px;
+        height: 120px;
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+    }
+
+    .blur {
+        background-color: rgb(0, 0, 0);
+        width: 200px;
+        height: 120px;
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        margin-left: auto;
+        border-radius: 10px;
+    }
+
+    /* .function-area2 {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: 12px;
+    } */
+
+    .crack {
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        width: 120px;
+        height: 120px;
+        align-items: left;
+        text-align: right;
+        margin-left: auto;
+        border-radius: 10px;
+    }    
+
+    .manipulation {
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        width: 120px;
+        height: 120px;
+        text-align: right;
+
+        margin-left: auto;
+        border-radius: 10px;
+    }   
+
+    .save {
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        width: 120px;
+        height: 120px;
+        text-align: right;
+        align-items: center;
+        align-items: end;
+
+        margin-left: auto;
+        border-radius: 10px;
+    }   
+
+
+    /* 默认隐藏后续文本 */
+    .part{
+        display:none;
+    }
+
+    /* 关键词文本样式 */
+    label{
+        background:rgb(255, 255, 255);
+        color:rgb(255, 255, 255);
+        padding:2px 6px;
+        cursor:pointer;
+        text-size-adjust: 14px;
+    }
+
+    /* hover */
+    label:hover{
+        background:rgb(71, 71, 71);
+    }
+
+    .story{
+        line-height: 1.5;
+        letter-spacing: 0.05em;
+        /* border: 1px solid black; */
+    }
+
+    /* 点击之后逐段出现 */
+    #function1:checked ~ .story .part1{
+        display:inline;
+    }
+
+    #function2:checked ~ .story .part2{
+        display:inline;
+    }
+
+    #function3:checked ~ .story .part3{
+        display:inline;
+    }
+
+    #function4:checked ~ .story .part4{
+        display:inline;
+
+    }
+
+    #function5:checked ~ .story .part5{
+        display:inline;
+
+    }
+
+    #function6:checked ~ .story .part6{
+        display:inline;
+
+    }
+
+    #function7:checked ~ .story .part7{
+        display:inline;
+
+    }
+
+    #function8:checked ~ .story .part8{
+        display:inline;
+    }
+
+    #function9:checked ~ .story .part9{
+        display:inline;
+    }
+
+    #function10:checked ~ .story .part10{
+        display:inline;
+    }
+
+    #function11:checked ~ .story .part11{
+        display:inline;
+    }    
+
+    .parallax {
+        will-change: transform;
+    }
+
+
+
+
+
+
+
+    
+
+/* 松树的图片组-10组图片 */
+    .image-container {
+        position: relative;
+        z-index: 10;
+        /* border: 1px solid black; */
+    }
+
+    .image-container1{
+        height: 19vh;
+        width: 35vw;
+        top: 4vh;
+    }
+
+    .image-container2{
+        height: 30vh;
+        width: 30vw;
+        top: 40vh;
+        left: 5vw;
+    }
+
+    .image-container3{
+        height: 16vh;
+        width: 30vw;
+        top: -24vh;
+        left: 16vw;
+    }
+
+    .image-container4{
+        height: 14vh;
+        width: 37vw;
+        top: -16vh;
+        left: 40vw;
+    }
+
+    .image-container5{
+        height: 18vh;
+        width: 30vw;
+        top: -76vh;
+        left: 75vw;
+    }
+
+    .image-container6{
+        height: 20vh;
+        width: 30vw;
+        top: -68vh;
+        left: 80vw;
+    }
+
+    .image-container7{
+        height: 10vh;
+        width: 30vw;
+        top: -50vh;
+        left: 90vw;
+    }
+
+    .image-container8{
+        height: 20vh;
+        width: 30vw;
+        top: -64vh;
+        left: 140vw;
+    }
+
+    .image-container9{
+        height: 20vh;
+        width: 90vw;
+        top: -120vh;
+        left: 160vw;
+    }
+
+    .image-container10{
+        height: 10vh;
+        width: 30vw;
+        top: -100vh;
+        left: 190vw;
+    }
+
+    .image-container11{
+        height: 10vh;
+        width: 56vw;
+        top: -160vh;
+        left: 240vw;
+    }
+
+    .image-container12{
+        height: 20vh;
+        width: 80vw;
+        top: -120vh;
+        left: 260vw;
+    }
+
+    .image-container13{
+        height: 20vh;
+        width: 30vw;
+        top: -180vh;
+        left: 240vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ------------------------- */
+/* 单个图片-25张 */
+    #function33-img{
+        position:absolute;
+        width: 36vw;
+        top: -20vh;
+        left: 0vw;
+    }
+
+    #function34-img{
+        position:absolute;
+        width: 16vw;
+        top: 10vh;
+        left: 0vw;
+    }
+
+    #function31-img{
+        position:absolute;
+        width: 16vw;
+        top: 0vh;
+        left: 8vw;
+    }
+
+    #function27-img{
+        position:absolute;
+        width: 16vw;
+        bottom: 0vh;
+        left: 0vw;
+    }
+
+    #function32-img{
+        position:absolute;
+        width: 24vw;
+        top: -20vh;
+        left: 28vw;
+    }
+
+    #function28-img{
+        position:absolute;
+        width: 40vw;
+        top: -30vh;
+        left: 0vw;
+    }
+
+    #function30-img{
+        position:absolute;
+        width: 40vw;
+        top: -8vh;
+        left: -14vw;
+    }
+
+    #function29-img{
+        position:absolute;
+        width: 70vw;
+        top: 10vh;
+        left: 18vw;
+    }
+
+    #function24-img{
+        position:absolute;
+        width: 20vw;
+        top: 2vh;
+        left: 4vw;
+    }
+
+    #function22-img{
+        position:absolute;
+        width: 30vw;
+        top: -14vh;
+        left: 6vw;
+    }
+
+    #function23-img{
+        position:absolute;
+        width: 10vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function20-img{
+        position:absolute;
+        width: 40vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function21-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function18-img{
+        position:absolute;
+        width: 10vw;
+        top: 3vh;
+        left: 16vw;
+    }
+
+    #function19-img{
+        position:absolute;
+        width: 36vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function25-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function15-img{
+        position:absolute;
+        width: 16vw;
+        top: 0vh;
+        left: 10vw;
+    }
+
+    #function16-img{
+        position:absolute;
+        width: 10vw;
+        top: 10vh;
+        left: 10vw;
+    }
+
+    #function17-img{
+        position:absolute;
+        width: 26vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function13-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 0vw;
+    }
+    
+    #function14-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 10vw;
+    }
+
+    #function6-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function8-img{
+        position:absolute;
+        width: 22vw;
+        top: 2vh;
+        left: 14vw;
+    }
+
+    #function10-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 10vw;
+    }
+
+    #function11-img{
+        position:absolute;
+        width: 10vw;
+        top: -10vh;
+        left: 24vw;
+    }
+
+    #function26-img{
+        position:absolute;
+        width: 40vw;
+        top: 0vh;
+        left: 1vw;
+    }
+
+    #function4-img{
+        position:absolute;
+        width: 20vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function5-img{
+        position:absolute;
+        width: 24vw;
+        top: 2vh;
+        left: 8vw;
+    }
+
+    #function9-img{
+        position:absolute;
+        width: 8vw;
+        top: 8vh;
+        left: 12vw;
+    }
+
+    #function1-img{
+        position:absolute;
+        width: 35vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function2-img{
+        position:absolute;
+        width: 22vw;
+        top: 10vh;
+        left: 10vw;
+    }
+
+    #function3-img{
+        position:absolute;
+        width: 18vw;
+        top: 0vh;
+        left: 0vw;
+    }
+
+    #function7-img{
+        position:absolute;
+        width: 20vw;
+        top: 6vh;
+        left: 10vw;
+    }
+
+    #function12-img{
+        position:absolute;
+        width: 20vw;
+        top: 8vh;
+        left: 2vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* --------------------------------- */
+/* 每个枝干 */
+    .branch-wrapper {
+        position: absolute;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .black-block {
+        width: 0vh;
+        height: 100%;
+        background: black;
+        flex-shrink: 0;
+        z-index: 1;
+    }
+
+    .branch {
+        display: flex;
+        align-items: end;      /* 垂直 */
+        justify-content: center;  /* 水平 */
+        margin-left: 20px;
+        z-index: 20;
+    }
+
+    .horizontal-branch {
+        flex-direction: column;
+    }    
+
+    .horizontal-branch .black-block {
+    width: 100%;
+    height: 0vh;
+    }
+
+    .branch_1 {
+        top: 48vh;
+        left: 1vw;
+        height: 45vh;
+    }
+
+    .branch_1 .branch {
+        width: 60px;
+    }
+
+    .branch_2 {
+        bottom: -36vh;
+        left: 2vw;
+        height: 44vh;
+    }
+
+    .branch_2 .branch {
+        width: 50px;
+    }
+
+    /*  */
+    .branch_3 {
+        top: 10vh;
+        left: -17vw;
+        width: 42vh;
+    }
+
+    .branch_3 .branch {
+        width: 100px;
+    }
+
+    .branch_4 {
+        bottom: -14vh;
+        left: -10vw;
+        height: 20vh;
+    }
+
+    .branch_4 .branch {
+        width: 60px;
+    }
+
+    /*  */
+    .branch_5 {
+        top:4vh;
+        left: -13vw;
+        width: 20vw;
+    }
+
+    .branch_5 .branch {
+        width: 400px;
+        margin-left: 60px;
+    }
+
+    .branch_6 {
+        top: 11vh;
+        left: -18vw;
+        height: 25vh;
+    }
+
+    .branch_6 .branch {
+        width: 500px;
+        align-items: end;
+    }
+
+    /*  */
+    .branch_7 {
+        top: 0vh;
+        left: -2vw;
+        width: 12vw;
+    }
+
+    .branch_7 .branch {
+        width: 20vw;
+    }
+
+    .branch_8 {
+        top: 0vh;
+        left: -37vw;
+        width: 60vw;
+    }
+
+    .branch_8 .branch {
+        width: 400px;
+        margin-left: 300px;
+    }
+
+
+    .branch_9 {
+        top: 11vh;
+        left: -32vw;
+        height: 8vh;
+    }
+
+    .branch_9 .branch {
+        /* top: -2px; */
+        width: 800px;
+    }
+    
+    /*  */
+    .branch_10 {
+        top: 11vh;
+        left: -31vw;
+        width: 40vw;
+    }       
+
+    .branch_10 .branch {
+        width: 200px;
+    }
+
+    .branch_11 {
+        top: -25vh;
+        left: -2vw;
+        height: 26vh;
+    }   
+
+    .branch_11 .branch {
+        align-items: end;
+        margin-bottom: 20px;
+    }
+
+    .branch_12 {
+        top: 0vh;
+        left: -1vw;
+        width: 20vw;
+    }       
+
+    .branch_12 .branch {
+        width: 200px;
+    }
+
+    /*  */
+    .branch_13 {
+        top: 3vh;
+        left: -44vw;
+        width: 48vw;
+    }       
+
+    .branch_13 .branch {
+        width: 200px;
+    }
+
+    /*  */
+    .branch_14 {
+        bottom: 0vh;
+        left: -41vw;
+        width: 50vw;
+    }       
+
+    .branch_14 .branch {
+        width: 200px;
+    }
+
+    .branch_15 {
+        bottom: -18vh;
+        left: -42vw;
+        height: 18vh;
+    }   
+
+    .branch_15 .branch {
+        top: -2px;
+        width: 400px;
+    }
+
+    .branch_16 {
+        top: 2vh;
+        left: 0vw;
+        height: 12vh;
+    }   
+
+    .branch_16 .branch {
+        align-items: start;
+    }
+
+    /*  */
+    .branch_17 {
+        top: 0vh;
+        left: -55vw;
+        width: 68vw;
+    }       
+
+    .branch_17 .branch {
+        width: 200px;
+    }
+
+    .branch_18 {
+        top:2vh;
+        left: -91vw;
+        height: 14vw;
+    }       
+
+    .branch_18 .branch {
+        align-items: start;
+    }
+
+    /*  */
+    .branch_19 {
+        top: 0vh;
+        left: -91vw;
+        width: 90vw;
+    }       
+
+    .branch_19 .branch {
+        width: 200px;
+    }
+
+    .branch_20 {
+        top: -6.5vh;
+        left: -82vw;
+        height: 3vw;
+    }       
+
+    .branch_20 .branch {
+        width: 400px;
+    }
+
+    /*  */
+    .branch_21 {
+        top: -8vh;
+        left: -82vw;
+        width: 100vw;
+    }       
+
+    .branch_21 .branch {
+        width: 200;
+    }
+
+    .branch_22 {
+        bottom: -36vh;
+        left: -6vw;
+        height: 24vw;
+    }       
+
+    .branch_22 .branch {
+    }
+
+    .branch_23 {
+        bottom: -16vh;
+        left: 4vw;
+        height: 20vw;
+        transform: rotate(90deg);
+    }       
+
+    .branch_23 .branch {
+        width: 2vw;
+    }
+
+
+    
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @keyframes float {
+
+    0%{
+        transform: translateY(0px);
+    }
+
+    50%{
+        transform: translateY(-20px);
+    }
+
+    100%{
+        transform: translateY(0px);
+    }
+    }   
