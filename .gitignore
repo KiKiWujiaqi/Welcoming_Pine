@@ -1,1 +1,12 @@
-static/
+
+# Ignore images in static, but keep the folder
+static/**/*.png
+static/**/*.jpg
+static/**/*.jpeg
+static/**/*.gif
+static/**/*.webp
+static/**/*.svg
+static/**/*.heic
+static/**/*.bmp
+static/**/*.ico
+static/**/*.tiff
