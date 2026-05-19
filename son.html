@@ -382,12 +382,13 @@
             <input type="checkbox" id="function12" style="display: none;">
 
             <h1 class="story">
-
+                <span class="part part0">
                 那天她梦到一颗松，蔓延成一片土地
 
                 <label for="function1">
                 黄山
                 </label> 在枝干上伸展<br>
+                </span>
 
 
                 <span class="part part1">
@@ -399,9 +400,9 @@
                 </span>
 
                 <span class="part part2">
-                    边上有
+                    边上有花丛有
                     <label for="function3">
-                    花丛有鸟兽
+                    鸟兽
                     </label>
                     <br>
                 </span>
@@ -545,8 +546,6 @@
         <div class="pattern">
             <h1>枝干 <br> Pattern</h1>
             <input type="range" id="branch_width" min="0" max="100" step="10" value="0">
-            </input>
-            </button>
 
             <script>
             const slider = document.getElementById('branch_width');
@@ -573,56 +572,11 @@
             </script>
         </div>
 
-<!-- 改变文本 change text -->
-        <div class="crack">
-            <h1>缝隙<br>Crack</h1>                                        
-            <button onclick="changethis()" id="button">
-            </button>
-
-            <script>
-            const h2 = [
-                "生无田一亩，死有地千年。<br> In life, not one acre of land;in death, a thousand years of earth.",
-                "夜半见山灯数点，浮游无定。<br>At midnight, several mountain lights appeared,drifting without fixed place.",
-                "猛然惊觉，寒月残灯，依然在目，似梦非梦。<br>Suddenly, I realised thatthe cold moon and the flickering lampwere still before my eyes, as if in a dream,yet not quite a dream.",
-                "当我攀至山顶，在磨得皮开肉绽的鞋底，六和塔刚刚建成，在塔顶闲坐了几分钟，直射的光线让人恍惚<br>When I reached the summit, with the soles of my shoes worn to shreds, the Liuhe Pagoda had just been completed. I sat idly at the top of the pagoda for a few minutes; the direct sunlight left me feeling dazed.",
-                "一半用于农业，他们自己繁殖，大风从东吹到西，从北刮到南，无视黑夜和黎明<br>Half are used for farming; they breed on their own, Strong winds blow from east to west, from north to south, heedless of night or dawn",
-                "那里的谷物高高堆起，遮住了窗子。它们一半用于一家六口人的嘴，吃和胃<br>The grain was piled high there, obscuring the windows. Half of it was used to feed a family of six, to fill their stomachs",
-                "做人还是平常点好，争这个争那个，争来争去赔了自己的命。<br>It’s best to keep a low profile in life; if you’re always fighting over this and that, you’ll end up losing your life in the process.",
-                "身子是一匹布，那布上粘满了，水面上漂来漂去的声音 <br>The body is a piece of cloth. That cloth is covered,With sounds drifting to and fro on the water",
-                "天游峰下白云低，行人如在画图中。<br>Beneath Tianyou Peak, the white clouds hang low;  passers-by seem to be in a painting.",
-                "庄子在水中洗手,洗完了手，手掌上一片寂静<br>Zhuangzi was washing his hands in the water. After washing my hands, there was a sense of stillness on my palms",
-                "松楸常繫念，親串遠相關。<br>Pine and juniper ever in my thoughts;  near and far,  we are bound by kinship.",
-                "登舟拂去塵氛累，飄然向故山。<br>Stepping aboard, I brush away the weariness of the world and set sail, drifting effortlessly towards my native hills.",
-
-
-            ];
-
-            function changethis(){
-
-                document.querySelectorAll(".changethis").forEach(function(el){
-
-                    el.innerHTML =
-                        h2[Math.floor(Math.random() * h2.length)];
-
-                });
-
-            }
-            </script>
-        </div>
-    <!-- </div> -->
-
     <!-- <div class="function-area2">         -->
 <!-- 模糊效果 Blur -->
         <div class="blur">
             <h1>远近<br>Blur</h1>
-            <input
-            type="range"
-            id="pixelRange"
-            min="0"
-            max="10"
-            step="1"
-            value="0"
-            />
+            <input type="range" id="pixelRange" min="0" max="10" step="1" value="0">
 
             <script>
             const pixelRange = document.getElementById("pixelRange");
@@ -772,6 +726,43 @@
             </script> -->
         </div>
 
+<!-- 改变文本 change text -->
+        <div class="crack">
+            <h1>缝隙<br>Crack</h1>                                        
+            <button onclick="changethis()" id="button">
+            </button>
+
+            <script>
+            const h2 = [
+                "生无田一亩，死有地千年。<br> In life, not one acre of land;in death, a thousand years of earth.",
+                "夜半见山灯数点，浮游无定。<br>At midnight, several mountain lights appeared,drifting without fixed place.",
+                "猛然惊觉，寒月残灯，依然在目，似梦非梦。<br>Suddenly, I realised thatthe cold moon and the flickering lampwere still before my eyes, as if in a dream,yet not quite a dream.",
+                "当我攀至山顶，在磨得皮开肉绽的鞋底，六和塔刚刚建成，在塔顶闲坐了几分钟，直射的光线让人恍惚<br>When I reached the summit, with the soles of my shoes worn to shreds, the Liuhe Pagoda had just been completed. I sat idly at the top of the pagoda for a few minutes; the direct sunlight left me feeling dazed.",
+                "一半用于农业，他们自己繁殖，大风从东吹到西，从北刮到南，无视黑夜和黎明<br>Half are used for farming; they breed on their own, Strong winds blow from east to west, from north to south, heedless of night or dawn",
+                "那里的谷物高高堆起，遮住了窗子。它们一半用于一家六口人的嘴，吃和胃<br>The grain was piled high there, obscuring the windows. Half of it was used to feed a family of six, to fill their stomachs",
+                "做人还是平常点好，争这个争那个，争来争去赔了自己的命。<br>It’s best to keep a low profile in life; if you’re always fighting over this and that, you’ll end up losing your life in the process.",
+                "身子是一匹布，那布上粘满了，水面上漂来漂去的声音 <br>The body is a piece of cloth. That cloth is covered,With sounds drifting to and fro on the water",
+                "天游峰下白云低，行人如在画图中。<br>Beneath Tianyou Peak, the white clouds hang low;  passers-by seem to be in a painting.",
+                "庄子在水中洗手,洗完了手，手掌上一片寂静<br>Zhuangzi was washing his hands in the water. After washing my hands, there was a sense of stillness on my palms",
+                "松楸常繫念，親串遠相關。<br>Pine and juniper ever in my thoughts;  near and far,  we are bound by kinship.",
+                "登舟拂去塵氛累，飄然向故山。<br>Stepping aboard, I brush away the weariness of the world and set sail, drifting effortlessly towards my native hills.",
+
+
+            ];
+
+            function changethis(){
+
+                document.querySelectorAll(".changethis").forEach(function(el){
+
+                    el.innerHTML =
+                        h2[Math.floor(Math.random() * h2.length)];
+
+                });
+
+            }
+            </script>
+        </div>
+
 <!-- 视角/图片改变 manipulation/change image -->
         <div class="manipulation">
             <h1>视角<br>Manipulation</h1>                                       
@@ -841,7 +832,7 @@
                 const exportHeight = target.scrollHeight;
 
                 target.style.overflow = "visible";
-                target.style.width = exportWidth + "500px";
+                target.style.width = exportWidth + "0px";
                 target.style.height = window.innerHeight;
 
                 html2canvas(target, {

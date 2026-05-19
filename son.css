@@ -54,11 +54,13 @@
         height: 20px;
         background: transparent;
         cursor: pointer;
+        align-self: center;
     }
+
 
     /* 轨道 */
     input[type="range"]::-webkit-slider-runnable-track {
-        height: 40px;
+        height: 10px;
         background: #474747;
         border-radius: 999px;
         border: 1px solid #ffffff;
@@ -87,7 +89,7 @@
         background: transparent;
         overflow-x: auto;
         overflow-y: hidden;
-        max-width: 3000px;
+        max-width: 4000px;
         height: 1200px;
         min-height: 100vh;
         width: 100%;
@@ -104,7 +106,7 @@
     bottom: 0;
 
     height: calc(100vh - 40px);
-    width: 20vw;
+    /* width: 20vw; */
 
     display: flex;
     flex-direction: column;
@@ -119,37 +121,43 @@
 /* 不同的操作功能 */
 /* 树冠-文本的增加链接图片组的增加 */
     .crown {
-        background-color:rgb(0, 0, 0) ;
-        padding: 20px;
-        width: 400px;
-
-        color: #ffffff;
+        width: 1000px;
         text-align: right;
-        border-radius: 10px;
+        /* background-color:rgb(0, 0, 0) ;
+        padding: 20px;
+        color: #ffffff;
+        border-radius: 10px; */
     }
-
-
-    /* .function-area1 {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-        gap: 12px;
-    } */
 
     .pattern {
         background-color: rgb(0, 0, 0);
         width: 200px;
-        height: 120px;
+        height: 60px;
         padding: 20px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
+        align-items: center;
     }
+
+            .pattern input[type="range"] {
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+
+            .pattern:hover input[type="range"],
+            .pattern:focus-within input[type="range"] {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            }
 
     .blur {
         background-color: rgb(0, 0, 0);
         width: 200px;
-        height: 120px;
+        height: 60px;
         padding: 20px;
         color: #ffffff;
         text-align: right;
@@ -157,12 +165,19 @@
         border-radius: 10px;
     }
 
-    /* .function-area2 {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-        gap: 12px;
-    } */
+            .blur input[type="range"] {
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+
+            .blur:hover input[type="range"],
+            .blur:focus-within input[type="range"] {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            }
 
     .crack {
         background-color: rgb(0, 0, 0);
@@ -212,69 +227,152 @@
     label{
         background:rgb(255, 255, 255);
         color:rgb(255, 255, 255);
-        padding:2px 6px;
+        padding:2px 2px;
         cursor:pointer;
         text-size-adjust: 14px;
+        border-radius: 10px;
+
     }
 
     /* hover */
     label:hover{
-        background:rgb(71, 71, 71);
+        background:rgb(0, 0, 0);
     }
 
     .story{
         line-height: 1.5;
         letter-spacing: 0.05em;
-        /* border: 1px solid black; */
+        margin-inline-end: 0px;
+        background-color: transparent;
+    }
+
+    .story .part0{
+        display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
     }
 
     /* 点击之后逐段出现 */
     #function1:checked ~ .story .part1{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
+        margin-right: 200px;
     }
 
     #function2:checked ~ .story .part2{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
+        margin-right: 400px;
     }
 
     #function3:checked ~ .story .part3{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
     }
 
     #function4:checked ~ .story .part4{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
 
+        margin-right: 100px;
     }
 
     #function5:checked ~ .story .part5{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
+        margin-right: 300px;
 
     }
 
     #function6:checked ~ .story .part6{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
 
+        margin-right: 400px;
     }
 
     #function7:checked ~ .story .part7{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
 
     }
 
     #function8:checked ~ .story .part8{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
+        margin-right: 500px;
     }
 
     #function9:checked ~ .story .part9{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
+        margin-right: 200px;
     }
 
     #function10:checked ~ .story .part10{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
     }
 
     #function11:checked ~ .story .part11{
         display:inline;
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        text-align: right;
+        border-radius: 10px;
+
+        margin-right: 400px;
     }    
 
     .parallax {
