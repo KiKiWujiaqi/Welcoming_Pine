@@ -2,6 +2,32 @@
 
 这个文件给后续接手本仓库的 AI / agent 使用，记录已经确认过的关键约束，避免重复踩坑。
 
+## 接手分界
+
+当前仓库已经标记出“接手前 / 接手后起点”的分界，后续排查问题或回看版本时优先使用这两个 tag：
+
+- `before-takeover` -> `f05eff9`
+- `after-takeover-start` -> `cd4e4a3`
+
+含义：
+
+- `f05eff9` 是接手前最后一个提交，作者是 `琪`
+- `cd4e4a3` 是接手后第一个提交，作者是 `GitHub0327`
+
+常用命令：
+
+```bash
+git diff before-takeover after-takeover-start
+git switch --detach before-takeover
+git switch --detach after-takeover-start
+git switch main
+```
+
+说明：
+
+- 如果工作区有未提交改动，切版本前先提交或 `git stash`
+- 需要继续新增阶段分界时，优先继续使用 tag，而不是只靠口头描述
+
 ## 项目结构
 
 - `son.html`：主交互页面，绝大多数前端逻辑都在这里
@@ -101,8 +127,9 @@ OSS_BUCKET=lirujinzhi-web/media/
 
 ### 路径策略
 
-- 默认不带日期目录
-- 如果显式设置 `OSS_OBJECT_DATE_PATH=true`，才会生成 `prefix/YYYY-MM-DD/uuid.ext`
+- 默认带日期目录
+- 默认生成 `prefix/YYYY-MM-DD/uuid.ext`
+- 如果显式设置 `OSS_OBJECT_DATE_PATH=false`，才会退回到 `prefix/uuid.ext`
 
 ## 当前期望行为
 
@@ -111,6 +138,12 @@ OSS_BUCKET=lirujinzhi-web/media/
 - 上传到 OSS
 - 返回公开 URL
 - 前端展示二维码
+
+交互快捷键：
+
+- 按 `F` 进入全屏
+- 再按一次 `F` 退出全屏
+- 这个能力不要在页面 UI 中额外展示，只保留在文档说明中
 
 上传失败时：
 

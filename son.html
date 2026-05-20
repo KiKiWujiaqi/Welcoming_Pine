@@ -348,16 +348,92 @@
 
         <script>
             const container = document.querySelector(".left");
+            let isPointerPanning = false;
+            let panPointerId = null;
+            let panStartX = 0;
+            let panStartScrollLeft = 0;
+
+            function isInteractiveTarget(target) {
+                return Boolean(
+                    target &&
+                        target.closest("button, a, input, textarea, select, label")
+                );
+            }
 
             container.addEventListener("scroll", function () {
                 const scrollX = container.scrollLeft;
-                console.log(scrollX);
 
                 document.querySelectorAll(".parallax").forEach(function (el) {
                     const speed = Number(el.dataset.speed);
-                    el.style.transform = `translateX(${scrollX * speed}px)`;
+                    const parallaxOffset = scrollX * (1 - speed);
+                    el.style.transform = `translateX(${parallaxOffset}px)`;
                 });
             });
+
+            container.addEventListener(
+                "wheel",
+                function (event) {
+                    if (event.ctrlKey || event.metaKey) {
+                        return;
+                    }
+
+                    event.preventDefault();
+                    const primaryDelta =
+                        Math.abs(event.deltaX) > Math.abs(event.deltaY)
+                            ? event.deltaX
+                            : event.deltaY;
+                    container.scrollLeft += primaryDelta;
+                },
+                { passive: false }
+            );
+
+            container.addEventListener("dragstart", function (event) {
+                if (event.target && event.target.closest("img")) {
+                    event.preventDefault();
+                }
+            });
+
+            container.addEventListener("pointerdown", function (event) {
+                if (event.pointerType !== "mouse" || event.button !== 0) {
+                    return;
+                }
+
+                if (isInteractiveTarget(event.target)) {
+                    return;
+                }
+
+                isPointerPanning = true;
+                panPointerId = event.pointerId;
+                panStartX = event.clientX;
+                panStartScrollLeft = container.scrollLeft;
+                event.preventDefault();
+                container.setPointerCapture(event.pointerId);
+            });
+
+            container.addEventListener("pointermove", function (event) {
+                if (!isPointerPanning || event.pointerId !== panPointerId) {
+                    return;
+                }
+
+                const deltaX = event.clientX - panStartX;
+                container.scrollLeft = panStartScrollLeft - deltaX;
+            });
+
+            function stopPointerPan(event) {
+                if (!isPointerPanning || event.pointerId !== panPointerId) {
+                    return;
+                }
+
+                isPointerPanning = false;
+                panPointerId = null;
+
+                if (container.hasPointerCapture(event.pointerId)) {
+                    container.releasePointerCapture(event.pointerId);
+                }
+            }
+
+            container.addEventListener("pointerup", stopPointerPan);
+            container.addEventListener("pointercancel", stopPointerPan);
         </script>
     </div>
 <!-- 操作页面 the function area -->
@@ -938,6 +1014,8 @@
                 link.click();
             }
 
+            let currentDownloadUrl = null;
+
             function canvasToBlob(canvas) {
                 return new Promise((resolve, reject) => {
                     canvas.toBlob(blob => {
@@ -951,14 +1029,20 @@
                 });
             }
 
-            function openShareModal(url) {
+            function openShareModal(url, downloadUrl) {
                 const shareModal = document.getElementById("share-modal");
                 const qrCodeContainer = document.getElementById("qrcode");
                 const shareLink = document.getElementById("share-link");
 
+                if (currentDownloadUrl && currentDownloadUrl.startsWith("blob:")) {
+                    URL.revokeObjectURL(currentDownloadUrl);
+                }
+
+                currentDownloadUrl = downloadUrl || url;
                 qrCodeContainer.innerHTML = "";
-                shareLink.href = url;
-                shareLink.textContent = url;
+                shareLink.href = currentDownloadUrl;
+                shareLink.textContent = "下载到本地";
+                shareLink.setAttribute("download", "welcoming-pine.jpg");
 
                 new QRCode(qrCodeContainer, {
                     text: url,
@@ -973,6 +1057,37 @@
                 const shareModal = document.getElementById("share-modal");
                 shareModal.classList.remove("is-open");
             }
+
+            async function toggleFullscreen() {
+                if (document.fullscreenElement) {
+                    await document.exitFullscreen();
+                    return;
+                }
+
+                await document.documentElement.requestFullscreen();
+            }
+
+            document.addEventListener("keydown", function (event) {
+                const target = event.target;
+                const isEditable =
+                    target &&
+                    (target.tagName === "INPUT" ||
+                        target.tagName === "TEXTAREA" ||
+                        target.isContentEditable);
+
+                if (isEditable) {
+                    return;
+                }
+
+                if (event.key !== "f" && event.key !== "F") {
+                    return;
+                }
+
+                event.preventDefault();
+                toggleFullscreen().catch(function (error) {
+                    console.error("[fullscreen toggle failed]", error);
+                });
+            });
 
             async function uploadBlob(blob) {
                 const formData = new FormData();
@@ -1014,7 +1129,7 @@
                     setSaveStatus("正在上传并生成二维码...");
                     const blob = await canvasToBlob(exportCanvas);
                     const result = await uploadBlob(blob);
-                    openShareModal(result.url);
+                    openShareModal(result.url, URL.createObjectURL(blob));
                     setSaveStatus("扫码保存到手机。");
                 } catch (error) {
                     console.error(error);
@@ -1039,7 +1154,7 @@
 <div class="share-modal" id="share-modal" onclick="closeShareModal()">
     <div class="share-card" onclick="event.stopPropagation()">
         <h2>扫码保存</h2>
-        <p>请使用手机扫码打开图片，然后在手机中保存。</p>
+        <p>手机扫码获取图像</p>
         <div id="qrcode"></div>
         <a class="share-link" id="share-link" href="#" target="_blank" rel="noopener noreferrer"></a>
         <button class="share-close" type="button" onclick="closeShareModal()">关闭</button>
@@ -1073,4 +1188,3 @@ document.querySelectorAll("input, range").forEach(el => {
 
 </body>
 </html>
-

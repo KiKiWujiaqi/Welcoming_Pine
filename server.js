@@ -9,6 +9,7 @@ const multer = require("multer");
 dotenv.config();
 
 const app = express();
+const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT || 3000);
 
 const requiredEnv = [
@@ -68,7 +69,7 @@ function buildObjectKey(extension) {
     /^\/+|\/+$/g,
     ""
   );
-  const useDatePath = parseBooleanEnv(process.env.OSS_OBJECT_DATE_PATH, false);
+  const useDatePath = parseBooleanEnv(process.env.OSS_OBJECT_DATE_PATH, true);
   const fileName = `${crypto.randomUUID()}${extension}`;
 
   if (!prefix) {
@@ -152,6 +153,12 @@ app.post("/api/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Welcoming Pine server listening on http://localhost:${port}`);
+app.listen(port, host, () => {
+  const displayHost = host === "0.0.0.0" ? "localhost" : host;
+  console.log(`Welcoming Pine server listening on http://${displayHost}:${port}`);
+  if (host === "0.0.0.0") {
+    console.log(
+      `LAN access enabled. Open http://<this-machine-ip>:${port} from devices on the same network.`
+    );
+  }
 });

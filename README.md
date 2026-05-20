@@ -24,6 +24,13 @@
 - 上传成功后展示二维码，供观众扫码在手机上打开图片
 - 上传失败时自动回退为本地下载，作为现场兜底方案
 
+最近更新：
+
+- 完善了横向滚动体验，右侧操作区的透明覆盖区域不再拦截左侧画面的滚动操作
+- 左侧长画面支持更稳定的横向浏览，适配触控板横向手势、鼠标滚轮和拖动画面
+- 完善了观众保存交互，二维码弹层文案和下载入口更清晰
+- 二维码上传不可用时会明确回退到“下载到本地”，方便现场兜底和同事本地测试
+
 ## 本地运行
 
 1. 安装依赖：
@@ -33,6 +40,18 @@ npm install
 ```
 
 2. 在项目根目录新建 `.env` 文件，并把 `.env.example` 的内容复制进去，再填写你自己的 OSS 配置。
+
+如果只是本地测试交互，不配置 `.env` 也可以启动项目。
+此时二维码上传不会生效，但点击 `save` 后仍然会自动回退到“下载到本地”，可以正常测试导出和本地保存流程。
+
+建议保留：
+
+```env
+HOST=0.0.0.0
+PORT=3000
+```
+
+这样服务会监听局域网网卡，方便同一内网中的其他设备访问。
 
 3. 启动服务：
 
@@ -44,6 +63,12 @@ npm start
 
 ```text
 http://localhost:3000
+```
+
+如果需要让同一局域网内的手机、平板或其他电脑访问，请使用这台机器的局域网 IP，例如：
+
+```text
+http://192.168.1.23:3000
 ```
 
 说明：
@@ -58,6 +83,11 @@ http://localhost:3000
 - 左侧：横向展开的树形画面，是最终会被导出的完整图像区域
 - 右侧：交互控制区，用来组合画面内容和生成结果
 
+左侧长画面支持横向浏览：
+
+- 可使用触控板横向手势或鼠标滚轮滚动
+- 也可按住鼠标左键在左侧画面上拖动浏览
+
 推荐操作流程：
 
 1. 点击关键词，显示并固定对应图像组
@@ -67,6 +97,10 @@ http://localhost:3000
 5. 点击 `Manipulation` 打乱图像在组内的位置
 6. 点击 `save`
 
+快捷键：
+
+- 按 `F` 可进入全屏，再按一次 `F` 可退出全屏
+
 点击 `save` 后的行为：
 
 - 系统会导出左侧区域在“滚动条位于最左侧”时的完整页面图像
@@ -75,6 +109,11 @@ http://localhost:3000
 - 上传成功后，页面会弹出二维码
 - 观众扫码即可在手机中打开图片并保存
 - 如果上传失败，系统会自动退回到本地下载
+
+补充说明：
+
+- 没有配置 `.env` 或没有配置完整 OSS 参数时，`save` 仍可用于本地测试
+- 这类情况下上传会失败，但页面会自动改为“下载到本地”
 
 ## 图片分享流程
 
@@ -103,6 +142,7 @@ http://localhost:3000
 
 可选配置：
 
+- `HOST`
 - `PORT`
 - `OSS_OBJECT_PREFIX`
 - `OSS_OBJECT_DATE_PATH`
@@ -110,8 +150,9 @@ http://localhost:3000
 
 其中：
 
+- `HOST` 建议设为 `0.0.0.0`，让服务监听所有网卡，便于局域网访问
 - `OSS_OBJECT_PREFIX` 用于控制上传到 OSS 后的目录前缀
-- `OSS_OBJECT_DATE_PATH` 控制是否在前缀后自动增加日期目录，默认 `false`
+- `OSS_OBJECT_DATE_PATH` 控制是否在前缀后自动增加日期目录，默认 `true`
 - `OSS_PUBLIC_BASE_URL` 建议填写 CDN 域名或绑定后的公开访问域名，供二维码直接访问
 
 补充：
@@ -125,14 +166,14 @@ http://localhost:3000
 OSS_REGION=oss-cn-beijing
 OSS_BUCKET=lirujinzhi-web
 OSS_OBJECT_PREFIX=media/welcoming-pine-result
-OSS_OBJECT_DATE_PATH=false
+OSS_OBJECT_DATE_PATH=true
 OSS_PUBLIC_BASE_URL=https://lirujinzhi-web.oss-cn-beijing.aliyuncs.com
 ```
 
 以上配置会将文件上传到：
 
 ```text
-lirujinzhi-web / media/welcoming-pine-result / <uuid>.jpg
+lirujinzhi-web / media/welcoming-pine-result / YYYY-MM-DD / <uuid>.jpg
 ```
 
 ## 仓库注意事项
