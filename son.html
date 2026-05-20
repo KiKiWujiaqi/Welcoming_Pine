@@ -612,12 +612,15 @@
                         label.style.backgroundColor = "rgb(98, 98, 98)";
                         label.style. textunderline = "2px solid white";
                     }
+
+                    requestAnimationFrame(updateControlsScale);
                 });
             });
         </script>
         </div>
 
     <!-- <div class="function-area1"> -->
+        <div class="controls-stack" id="controls-stack">
 <!-- 自定义宽度 Customization width -->
         <div class="pattern">
             <h1>枝干 <br> Pattern</h1>
@@ -826,6 +829,10 @@
 
             ];
 
+            document.querySelectorAll(".changethis").forEach(function (el) {
+                el.dataset.originalHtml = el.innerHTML;
+            });
+
             function changethis(){
 
                 document.querySelectorAll(".changethis").forEach(function(el){
@@ -1005,6 +1012,33 @@
             function setSaveStatus(message) {
                 const saveStatus = document.getElementById("save-status");
                 saveStatus.textContent = message;
+                requestAnimationFrame(updateControlsScale);
+            }
+
+            let isInteractionLocked = false;
+
+            function setInteractionLock(locked) {
+                isInteractionLocked = locked;
+                document.body.classList.toggle("app-locked", locked);
+            }
+
+            function updateControlsScale() {
+                const rightPanel = document.getElementById("right");
+                const crownPanel = rightPanel.querySelector(".crown");
+                const controlsStack = document.getElementById("controls-stack");
+
+                controlsStack.style.transform = "scale(1)";
+                controlsStack.style.height = "auto";
+
+                const availableHeight = Math.max(
+                    140,
+                    rightPanel.clientHeight - crownPanel.offsetHeight - 12
+                );
+                const naturalHeight = controlsStack.scrollHeight;
+                const scale = Math.min(1, availableHeight / naturalHeight);
+
+                controlsStack.style.height = `${naturalHeight * scale}px`;
+                controlsStack.style.transform = `scale(${scale})`;
             }
 
             function downloadCanvas(canvas) {
@@ -1056,6 +1090,7 @@
             function closeShareModal() {
                 const shareModal = document.getElementById("share-modal");
                 shareModal.classList.remove("is-open");
+                setInteractionLock(false);
             }
 
             async function toggleFullscreen() {
@@ -1076,6 +1111,10 @@
                         target.isContentEditable);
 
                 if (isEditable) {
+                    return;
+                }
+
+                if (isInteractionLocked) {
                     return;
                 }
 
@@ -1116,14 +1155,18 @@
             }
 
             async function saveDiv() {
+                if (isInteractionLocked) {
+                    return;
+                }
+
                 const target = document.querySelector(".left");
-
-                await waitForImages(target);
-
-                setSaveStatus("正在生成图片...");
+                setInteractionLock(true);
                 let exportCanvas = null;
 
                 try {
+                    await waitForImages(target);
+
+                    setSaveStatus("正在生成图片...");
                     exportCanvas = await renderExportCanvas(target);
 
                     setSaveStatus("正在上传并生成二维码...");
@@ -1144,14 +1187,83 @@
                         console.error(fallbackError);
                         setSaveStatus("保存失败，请重试。");
                     }
+
+                    setInteractionLock(false);
                 }
             }
+
+            function resetExperience() {
+                if (isInteractionLocked) {
+                    return;
+                }
+
+                Object.keys(mapping).forEach(function (key) {
+                    const checkbox = document.getElementById(key);
+                    const target = mapping[key];
+                    const label = document.querySelector(`label[for="${key}"]`);
+
+                    checkbox.checked = false;
+                    target.style.visibility = "hidden";
+                    label.style.backgroundColor = "";
+                    label.style.color = "";
+                });
+
+                slider.value = "0";
+                verticalBlocks.forEach(function (block) {
+                    block.style.width = "0px";
+                });
+                horizontalBlocks.forEach(function (block) {
+                    block.style.height = "0px";
+                });
+
+                pixelRange.value = "0";
+                resetImages();
+                selectedImages = [];
+                hasSelectedImages = false;
+
+                document.querySelectorAll(".changethis").forEach(function (el) {
+                    if (el.dataset.originalHtml) {
+                        el.innerHTML = el.dataset.originalHtml;
+                    }
+                });
+
+                document.querySelectorAll(".image-container .tree-image").forEach(function (img) {
+                    img.style.left = "";
+                    img.style.top = "";
+                });
+
+                closeShareModal();
+                document.getElementById("qrcode").innerHTML = "";
+                document.getElementById("share-link").removeAttribute("download");
+                document.getElementById("share-link").href = "#";
+                document.getElementById("share-link").textContent = "";
+
+                if (currentDownloadUrl && currentDownloadUrl.startsWith("blob:")) {
+                    URL.revokeObjectURL(currentDownloadUrl);
+                }
+                currentDownloadUrl = null;
+
+                setSaveStatus("");
+                container.scrollLeft = 0;
+                container.dispatchEvent(new Event("scroll"));
+                requestAnimationFrame(updateControlsScale);
+            }
+
+            window.addEventListener("resize", updateControlsScale);
+            window.addEventListener("load", updateControlsScale);
             </script>
+        </div>
+
+        <div class="reset-control">
+            <h1>重置<br>Reset</h1>
+            <button onclick="resetExperience()" type="button">
+            </button>
+        </div>
         </div>
         
     </div>
 
-<div class="share-modal" id="share-modal" onclick="closeShareModal()">
+<div class="share-modal" id="share-modal">
     <div class="share-card" onclick="event.stopPropagation()">
         <h2>扫码保存</h2>
         <p>手机扫码获取图像</p>

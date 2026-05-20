@@ -43,6 +43,18 @@
         object-fit: contain;
     }
 
+    @keyframes labelBreath {
+        0%,
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        }
+        50% {
+            transform: scale(1.14);
+            box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18);
+        }
+    }
+
 
 
     button {
@@ -50,7 +62,9 @@
         height: 40px;
         border-radius: 50%;
         border: 1px solid #ffffff;
-
+        background: transparent;
+        transition: transform 0.18s ease, background-color 0.18s ease,
+            box-shadow 0.18s ease;
     }
 
     input[type="range"] {
@@ -117,6 +131,10 @@
         user-drag: none;
     }
 
+    body.app-locked .left {
+        pointer-events: none;
+    }
+
 
 /* 操作区域 */
 .right {
@@ -127,11 +145,10 @@
 
     height: calc(100vh - 40px);
     /* width: 20vw; */
-
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 12px;
+    gap: clamp(6px, 1vh, 12px);
 
     background: transparent;
     box-sizing: border-box;
@@ -141,7 +158,25 @@
 
 .right > * {
     pointer-events: auto;
+    flex-shrink: 0;
 }
+
+body.app-locked .right > * {
+    pointer-events: none;
+}
+
+    .controls-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+        transform-origin: top right;
+        pointer-events: none;
+    }
+
+    .controls-stack > * {
+        pointer-events: auto;
+    }
 
 /* 不同的操作功能 */
 /* 树冠-文本的增加链接图片组的增加 */
@@ -248,6 +283,48 @@
         border-radius: 10px;
     }   
 
+    .reset-control {
+        background-color: rgb(0, 0, 0);
+        padding: 20px;
+        color: #ffffff;
+        width: 120px;
+        height: 120px;
+        text-align: right;
+        margin-left: auto;
+        margin-bottom: 12px;
+        border-radius: 10px;
+    }
+
+    .pattern h1,
+    .blur h1,
+    .crack h1,
+    .manipulation h1,
+    .save h1,
+    .reset-control h1 {
+        font-size: 18px;
+        line-height: 1.2;
+        margin: 0 0 8px;
+    }
+
+    .pattern button,
+    .blur button,
+    .crack button,
+    .manipulation button,
+    .save button,
+    .reset-control button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .crack button:hover,
+    .manipulation button:hover,
+    .save button:hover,
+    .reset-control button:hover {
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18);
+        transform: scale(1.08);
+    }
+
     .save-status {
         margin-top: 12px;
         font-size: 12px;
@@ -272,6 +349,11 @@
 
     .share-modal.is-open {
         display: flex;
+    }
+
+    body.app-locked .share-modal.is-open,
+    body.app-locked .share-modal.is-open * {
+        pointer-events: auto;
     }
 
     .share-card {
@@ -348,15 +430,21 @@
         background:rgb(255, 255, 255);
         color:rgb(255, 255, 255);
         padding:2px 2px;
+        display: inline-block;
         cursor:pointer;
         text-size-adjust: 14px;
         border-radius: 10px;
-
+        transform-origin: center;
+        animation: labelBreath 1.9s ease-in-out infinite;
+        transition: background-color 0.2s ease, transform 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
     /* hover */
     label:hover{
         background:rgb(0, 0, 0);
+        animation-play-state: paused;
+        transform: scale(1.08);
     }
 
     .story{
