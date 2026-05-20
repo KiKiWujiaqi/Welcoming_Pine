@@ -447,6 +447,12 @@ body.app-locked .right > * {
         transform: scale(1.08);
     }
 
+    label.is-active {
+        animation: none;
+        box-shadow: none;
+        transform: scale(1);
+    }
+
     .story{
         line-height: 1.5;
         letter-spacing: 0.05em;

@@ -599,6 +599,7 @@
                         label.style.backgroundColor = "rgb(98, 98, 98)";
                         label.style.color = "white";
                         label.style. textunderline = "2px solid white";
+                        label.classList.add("is-active");
 
                         target.scrollIntoView({
                             behavior: "smooth",
@@ -611,6 +612,7 @@
                         label.style.color = "white";
                         label.style.backgroundColor = "rgb(98, 98, 98)";
                         label.style. textunderline = "2px solid white";
+                        label.classList.remove("is-active");
                     }
 
                     requestAnimationFrame(updateControlsScale);
@@ -1206,6 +1208,7 @@
                     target.style.visibility = "hidden";
                     label.style.backgroundColor = "";
                     label.style.color = "";
+                    label.classList.remove("is-active");
                 });
 
                 slider.value = "0";
