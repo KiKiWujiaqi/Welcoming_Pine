@@ -1,4 +1,8 @@
 
+# OS metadata
+.DS_Store
+Thumbs.db
+
 # Ignore images in static, but keep the folder
 static/**/*.png
 static/**/*.jpg
