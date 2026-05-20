@@ -335,11 +335,13 @@ body.app-locked .right > * {
     .save-status {
         margin-top: 12px;
         font-size: 12px;
-        line-height: 1.4;
+        line-height: 1.2;
         color: #ffffff;
         text-align: right;
-        min-height: 34px;
+        min-height: 15px;
         max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     .share-modal {

@@ -1055,7 +1055,24 @@
             function setSaveStatus(message) {
                 const saveStatus = document.getElementById("save-status");
                 saveStatus.textContent = message;
+                fitSaveStatusText();
                 requestAnimationFrame(updateControlsScale);
+            }
+
+            function fitSaveStatusText() {
+                const saveStatus = document.getElementById("save-status");
+                const maxFontSize = 12;
+                const minFontSize = 8;
+
+                saveStatus.style.fontSize = `${maxFontSize}px`;
+
+                while (
+                    saveStatus.scrollWidth > saveStatus.clientWidth &&
+                    parseFloat(saveStatus.style.fontSize) > minFontSize
+                ) {
+                    const nextSize = parseFloat(saveStatus.style.fontSize) - 0.5;
+                    saveStatus.style.fontSize = `${nextSize}px`;
+                }
             }
 
             let isInteractionLocked = false;
@@ -1228,7 +1245,7 @@
                     setSaveStatus("扫码保存到手机");
                 } catch (error) {
                     console.error(error);
-                    setSaveStatus("上传失败，已改为本地下载");
+                    setSaveStatus("上传失败，已下载到本地");
 
                     try {
                         if (!exportCanvas) {
@@ -1307,8 +1324,14 @@
                 requestAnimationFrame(updateControlsScale);
             }
 
-            window.addEventListener("resize", updateControlsScale);
-            window.addEventListener("load", updateControlsScale);
+            window.addEventListener("resize", function () {
+                fitSaveStatusText();
+                updateControlsScale();
+            });
+            window.addEventListener("load", function () {
+                fitSaveStatusText();
+                updateControlsScale();
+            });
             </script>
         </div>
 
