@@ -217,6 +217,87 @@
         border-radius: 10px;
     }   
 
+    .save-status {
+        margin-top: 12px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #ffffff;
+        text-align: right;
+        min-height: 34px;
+        max-width: 220px;
+    }
+
+    .share-modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.72);
+        z-index: 100;
+        padding: 24px;
+        box-sizing: border-box;
+    }
+
+    .share-modal.is-open {
+        display: flex;
+    }
+
+    .share-card {
+        width: min(92vw, 360px);
+        background: #111111;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 16px;
+        padding: 24px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .share-card h2 {
+        margin: 0 0 12px;
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    .share-card p {
+        margin: 0 0 16px;
+        font-size: 14px;
+        color: #e6e6e6;
+    }
+
+    #qrcode {
+        display: flex;
+        justify-content: center;
+        min-height: 220px;
+        margin-bottom: 16px;
+    }
+
+    #qrcode img,
+    #qrcode canvas {
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .share-link {
+        display: block;
+        margin-bottom: 16px;
+        color: #ffffff;
+        font-size: 12px;
+        word-break: break-all;
+    }
+
+    .share-close {
+        width: auto;
+        height: auto;
+        border-radius: 999px;
+        padding: 10px 18px;
+        background: transparent;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
 
     /* 默认隐藏后续文本 */
     .part{

@@ -1,0 +1,17 @@
+{
+  "name": "welcoming-pine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Exhibition interaction with OSS-backed image sharing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "ali-oss": "^6.23.0",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "multer": "^2.0.0"
+  }
+}

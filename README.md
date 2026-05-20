@@ -1,57 +1,149 @@
-# Welcoming Pine
+# Welcoming Pine 迎客松
 
-`Welcoming_Pine` is an exhibition interaction project centered on a horizontally scrolling pine-tree composition. Visitors compose a visual narrative on the right side of the screen, and the left side renders the generated scene for capture/export.
+`Welcoming_Pine` 是一个用于展览现场的交互项目。观众在右侧操作区组合文本与图像，左侧横向展开的“松树”画面会实时生成对应的视觉叙事，并可导出为图片。
 
-## Current Status
+## 当前状态
 
-The repository currently contains a static front-end prototype:
+当前仓库已经包含以下内容：
 
-- `son.html`: main interaction page
-- `son.css`: layout and visual styling
-- `static/`: source image assets used by the composition
+- `son.html`：主交互页面
+- `son.css`：页面布局与视觉样式
+- `server.js`：Node.js + Express 后端入口
+- `static/`：交互使用的图片素材目录
+- `package.json`：后端依赖与运行脚本
 
-Current behavior:
+目前已经实现的功能：
 
-- visitors toggle text-linked image groups
-- branch thickness can be adjusted
-- a randomized pixelation effect can be applied
-- text fragments can be reshuffled
-- image positions can be randomized
-- the final composition can be exported as a local image using `html2canvas`
+- 通过文本关键词显示或固定不同图像组
+- 调整枝干粗细
+- 对随机图片应用像素化效果
+- 随机替换诗句文本
+- 随机打乱图片在组内的位置
+- 使用 `html2canvas` 生成最终画面
+- 前端将生成图片发送到后端 `/api/upload`
+- 上传成功后展示二维码，供观众扫码在手机上打开图片
+- 上传失败时自动回退为本地下载，作为现场兜底方案
 
-There is no backend yet. Image saving is currently browser download only.
+## 本地运行
 
-## Running Locally
+1. 安装依赖：
 
-This version can be opened directly in a browser as a static page:
+```bash
+npm install
+```
 
-1. Open `son.html` in a browser, or
-2. Serve the folder with any lightweight local static server
+2. 复制环境变量模板并填写阿里云 OSS 配置：
 
-Because the export uses `html2canvas` from a CDN, network access may be required unless that dependency is vendored locally later.
+```bash
+cp .env.example .env
+```
 
-## Repository Notes
+如果你在 Windows PowerShell 中操作，也可以直接新建 `.env` 文件，并按 `.env.example` 的内容填写。
 
-- This repository is currently on `main` and matches `origin/main` at the time of this README update.
-- OS metadata files such as `.DS_Store` and `Thumbs.db` are ignored and should not be committed.
-- The `static/` folder is kept in the repository structure, but image ignore rules already exist in `.gitignore`. Confirm the intended asset-tracking policy before changing image management again.
+3. 启动服务：
 
-## Planned Next Step
+```bash
+npm start
+```
 
-The next implementation phase is to replace local download with a share flow suitable for exhibition use:
+4. 浏览器访问：
 
-1. generate the final composition in the browser
-2. send the generated image to a backend service
-3. upload the image from the backend to Alibaba Cloud OSS
-4. return a public URL
-5. show that URL as a QR code for the visitor to scan on their phone
+```text
+http://localhost:3000
+```
 
-Recommended architecture for this phase:
+说明：
 
-- front end: existing static interaction page
-- backend: Node.js + Express
-- storage: Alibaba Cloud OSS
+- 当前版本依赖后端接口，不再建议直接双击 `son.html` 运行。
+- `html2canvas` 和二维码库目前仍通过 CDN 加载；如果现场网络不稳定，后续建议改为本地托管。
 
-## Operational Recommendation
+## 使用方式
 
-For exhibition deployment, keep a fallback path for local download even after OSS upload is added. If the network or OSS path fails on site, the installation should still be able to export images locally.
+页面分为左右两个区域：
+
+- 左侧：横向展开的树形画面，是最终会被导出的完整图像区域
+- 右侧：交互控制区，用来组合画面内容和生成结果
+
+推荐操作流程：
+
+1. 点击关键词，显示并固定对应图像组
+2. 使用 `Pattern` 调整枝干粗细
+3. 使用 `Blur` 改变部分图像的像素化效果
+4. 点击 `Crack` 随机替换画面中的诗句
+5. 点击 `Manipulation` 打乱图像在组内的位置
+6. 点击 `save`
+
+点击 `save` 后的行为：
+
+- 系统会导出左侧区域在“滚动条位于最左侧”时的完整页面图像
+- 后端会将生成的图片上传到 OSS
+- 上传成功后，页面会弹出二维码
+- 观众扫码即可在手机中打开图片并保存
+- 如果上传失败，系统会自动退回到本地下载
+
+## 图片分享流程
+
+当前保存流程如下：
+
+1. 浏览器根据当前画面生成最终图片
+2. 前端将图片发送到后端接口
+3. 后端将图片上传到阿里云 OSS
+4. 后端返回图片公网地址
+5. 前端将该地址生成二维码
+6. 观众扫码后在手机上打开并保存图片
+
+如果上传失败：
+
+- 页面会自动退回到本地下载逻辑
+- 这样即使现场网络或 OSS 出现问题，保存功能仍可继续使用
+
+## 环境变量
+
+必须配置：
+
+- `OSS_REGION`
+- `OSS_BUCKET`
+- `OSS_ACCESS_KEY_ID`
+- `OSS_ACCESS_KEY_SECRET`
+
+可选配置：
+
+- `PORT`
+- `OSS_OBJECT_PREFIX`
+- `OSS_OBJECT_DATE_PATH`
+- `OSS_PUBLIC_BASE_URL`
+
+其中：
+
+- `OSS_OBJECT_PREFIX` 用于控制上传到 OSS 后的目录前缀
+- `OSS_OBJECT_DATE_PATH` 控制是否在前缀后自动增加日期目录，默认 `false`
+- `OSS_PUBLIC_BASE_URL` 建议填写 CDN 域名或绑定后的公开访问域名，供二维码直接访问
+
+示例：
+
+```env
+OSS_REGION=oss-cn-beijing
+OSS_BUCKET=lirujinzhi-web
+OSS_OBJECT_PREFIX=media/welcoming-pine-result
+OSS_OBJECT_DATE_PATH=false
+OSS_PUBLIC_BASE_URL=https://lirujinzhi-web.oss-cn-beijing.aliyuncs.com
+```
+
+以上配置会将文件上传到：
+
+```text
+lirujinzhi-web / media/welcoming-pine-result / <uuid>.jpg
+```
+
+## 仓库注意事项
+
+- 当前开发分支为 `main`
+- `.DS_Store`、`Thumbs.db`、`node_modules/`、`.env` 已加入忽略规则，不应提交到仓库
+- `static/` 目录结构保留在仓库中，但图片文件是否纳入版本管理，需要结合现场部署方式谨慎确认
+
+## 现场部署建议
+
+- 正式展出前，先验证 OSS 上传、二维码访问、手机保存三段链路是否都正常
+- 建议为 OSS 绑定 CDN 或自定义域名，避免直接暴露 bucket 访问地址
+- 建议为上传图片设置生命周期策略，自动删除过期文件，防止长期堆积
+- 建议保留本地下载兜底逻辑，不要把保存能力完全依赖在网络上

@@ -799,8 +799,11 @@
             <h1>保存<br>save</h1>
             <button onclick="saveDiv()" id="button">
             </button>
+            <div class="save-status" id="save-status" aria-live="polite"></div>
 
             <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
             </script>
 
             <script>
@@ -819,48 +822,165 @@
                 return Promise.all(promises);
             }
 
+            async function renderExportCanvas(target) {
+                const renderHost = document.createElement("div");
+                renderHost.style.position = "fixed";
+                renderHost.style.left = "-100000px";
+                renderHost.style.top = "0";
+                renderHost.style.pointerEvents = "none";
+                renderHost.style.opacity = "0";
+                renderHost.style.zIndex = "-1";
+
+                const exportClone = target.cloneNode(true);
+                exportClone.style.overflow = "visible";
+                exportClone.style.width = target.scrollWidth + "px";
+                exportClone.style.height = target.scrollHeight + "px";
+                exportClone.style.maxWidth = "none";
+                exportClone.scrollLeft = 0;
+                exportClone.scrollTop = 0;
+
+                renderHost.appendChild(exportClone);
+                document.body.appendChild(renderHost);
+
+                await waitForImages(exportClone);
+                const scale = 2;
+
+                try {
+                    const fullCanvas = await html2canvas(exportClone, {
+                        width: exportClone.scrollWidth,
+                        height: exportClone.scrollHeight,
+                        windowWidth: exportClone.scrollWidth,
+                        windowHeight: exportClone.scrollHeight,
+                        scrollX: 0,
+                        scrollY: 0,
+                        scale
+                    });
+
+                    return fullCanvas;
+                } finally {
+                    renderHost.remove();
+                }
+            }
+
+            function setSaveStatus(message) {
+                const saveStatus = document.getElementById("save-status");
+                saveStatus.textContent = message;
+            }
+
+            function downloadCanvas(canvas) {
+                const link = document.createElement("a");
+                link.download = "welcoming-pine.jpg";
+                link.href = canvas.toDataURL("image/jpeg", 0.95);
+                link.click();
+            }
+
+            function canvasToBlob(canvas) {
+                return new Promise((resolve, reject) => {
+                    canvas.toBlob(blob => {
+                        if (!blob) {
+                            reject(new Error("Failed to generate image blob."));
+                            return;
+                        }
+
+                        resolve(blob);
+                    }, "image/jpeg", 0.95);
+                });
+            }
+
+            function openShareModal(url) {
+                const shareModal = document.getElementById("share-modal");
+                const qrCodeContainer = document.getElementById("qrcode");
+                const shareLink = document.getElementById("share-link");
+
+                qrCodeContainer.innerHTML = "";
+                shareLink.href = url;
+                shareLink.textContent = url;
+
+                new QRCode(qrCodeContainer, {
+                    text: url,
+                    width: 220,
+                    height: 220,
+                });
+
+                shareModal.classList.add("is-open");
+            }
+
+            function closeShareModal() {
+                const shareModal = document.getElementById("share-modal");
+                shareModal.classList.remove("is-open");
+            }
+
+            async function uploadBlob(blob) {
+                const formData = new FormData();
+                formData.append("image", blob, "welcoming-pine.jpg");
+
+                const response = await fetch("/api/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    let message = "Upload failed.";
+
+                    try {
+                        const data = await response.json();
+                        if (data && data.error) {
+                            message = data.error;
+                        }
+                    } catch (_error) {
+                    }
+
+                    throw new Error(message);
+                }
+
+                return response.json();
+            }
+
             async function saveDiv() {
                 const target = document.querySelector(".left");
 
                 await waitForImages(target);
 
-                const oldOverflow = target.style.overflow;
-                const oldWidth = target.style.width;
-                const oldHeight = target.style.height;
+                setSaveStatus("正在生成图片...");
+                let exportCanvas = null;
 
-                const exportWidth = target.scrollWidth;
-                const exportHeight = target.scrollHeight;
+                try {
+                    exportCanvas = await renderExportCanvas(target);
 
-                target.style.overflow = "visible";
-                target.style.width = exportWidth + "0px";
-                target.style.height = window.innerHeight;
+                    setSaveStatus("正在上传并生成二维码...");
+                    const blob = await canvasToBlob(exportCanvas);
+                    const result = await uploadBlob(blob);
+                    openShareModal(result.url);
+                    setSaveStatus("扫码保存到手机。");
+                } catch (error) {
+                    console.error(error);
+                    setSaveStatus("上传失败，已改为本地下载。");
 
-                html2canvas(target, {
-
-                    width: target.scrollWidth,
-                    height: target.scrollHeight,
-
-                    windowWidth: window.innerWidth,
-                    windowHeight: window.innerHeight,
-
-                    scale: 2
-
-                })            
-                .then(canvas => {
-                    const link = document.createElement("a");
-                    link.download = "myCanvas.jpg";
-                    link.href = canvas.toDataURL("image/jpeg", 1.0);
-                    link.click();
-
-                    target.style.overflow = oldOverflow;
-                    target.style.width = oldWidth;
-                    target.style.height = oldHeight;
-                });
+                    try {
+                        if (!exportCanvas) {
+                            exportCanvas = await renderExportCanvas(target);
+                        }
+                        downloadCanvas(exportCanvas);
+                    } catch (fallbackError) {
+                        console.error(fallbackError);
+                        setSaveStatus("保存失败，请重试。");
+                    }
+                }
             }
             </script>
         </div>
         
     </div>
+
+<div class="share-modal" id="share-modal" onclick="closeShareModal()">
+    <div class="share-card" onclick="event.stopPropagation()">
+        <h2>扫码保存</h2>
+        <p>请使用手机扫码打开图片，然后在手机中保存。</p>
+        <div id="qrcode"></div>
+        <a class="share-link" id="share-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+        <button class="share-close" type="button" onclick="closeShareModal()">关闭</button>
+    </div>
+</div>
 
 
 <!-- <div id="preview-window">
