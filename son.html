@@ -1168,17 +1168,17 @@
                 try {
                     await waitForImages(target);
 
-                    setSaveStatus("正在生成图片...");
+                    setSaveStatus("正在生成图片");
                     exportCanvas = await renderExportCanvas(target);
 
-                    setSaveStatus("正在上传并生成二维码...");
+                    setSaveStatus("正在上传并生成二维码");
                     const blob = await canvasToBlob(exportCanvas);
                     const result = await uploadBlob(blob);
                     openShareModal(result.url, URL.createObjectURL(blob));
-                    setSaveStatus("扫码保存到手机。");
+                    setSaveStatus("扫码保存到手机");
                 } catch (error) {
                     console.error(error);
-                    setSaveStatus("上传失败，已改为本地下载。");
+                    setSaveStatus("上传失败，已改为本地下载");
 
                     try {
                         if (!exportCanvas) {
@@ -1187,7 +1187,7 @@
                         downloadCanvas(exportCanvas);
                     } catch (fallbackError) {
                         console.error(fallbackError);
-                        setSaveStatus("保存失败，请重试。");
+                        setSaveStatus("保存失败，请重试");
                     }
 
                     setInteractionLock(false);
