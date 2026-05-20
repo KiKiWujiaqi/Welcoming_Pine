@@ -823,6 +823,65 @@
             }
 
             async function renderExportCanvas(target) {
+                function trimCanvasToContent(sourceCanvas, padding = 60) {
+                    const ctx = sourceCanvas.getContext("2d");
+                    const { width, height } = sourceCanvas;
+                    const imageData = ctx.getImageData(0, 0, width, height).data;
+
+                    let minX = width;
+                    let minY = height;
+                    let maxX = -1;
+                    let maxY = -1;
+
+                    for (let y = 0; y < height; y += 1) {
+                        for (let x = 0; x < width; x += 1) {
+                            const index = (y * width + x) * 4;
+                            const alpha = imageData[index + 3];
+
+                            if (alpha === 0) {
+                                continue;
+                            }
+
+                            minX = Math.min(minX, x);
+                            minY = Math.min(minY, y);
+                            maxX = Math.max(maxX, x);
+                            maxY = Math.max(maxY, y);
+                        }
+                    }
+
+                    if (maxX === -1 || maxY === -1) {
+                        return sourceCanvas;
+                    }
+
+                    const cropX = Math.max(0, minX - padding);
+                    const cropY = Math.max(0, minY - padding);
+                    const cropRight = Math.min(width, maxX + padding + 1);
+                    const cropBottom = Math.min(height, maxY + padding + 1);
+                    const cropWidth = cropRight - cropX;
+                    const cropHeight = cropBottom - cropY;
+
+                    const croppedCanvas = document.createElement("canvas");
+                    croppedCanvas.width = cropWidth;
+                    croppedCanvas.height = cropHeight;
+
+                    const croppedCtx = croppedCanvas.getContext("2d");
+                    croppedCtx.fillStyle = "#ffffff";
+                    croppedCtx.fillRect(0, 0, cropWidth, cropHeight);
+                    croppedCtx.drawImage(
+                        sourceCanvas,
+                        cropX,
+                        cropY,
+                        cropWidth,
+                        cropHeight,
+                        0,
+                        0,
+                        cropWidth,
+                        cropHeight
+                    );
+
+                    return croppedCanvas;
+                }
+
                 const renderHost = document.createElement("div");
                 renderHost.style.position = "fixed";
                 renderHost.style.left = "-100000px";
@@ -839,6 +898,10 @@
                 exportClone.scrollLeft = 0;
                 exportClone.scrollTop = 0;
 
+                exportClone.querySelectorAll(".parallax").forEach(function (el) {
+                    el.style.transform = "translateX(0px)";
+                });
+
                 renderHost.appendChild(exportClone);
                 document.body.appendChild(renderHost);
 
@@ -849,14 +912,15 @@
                     const fullCanvas = await html2canvas(exportClone, {
                         width: exportClone.scrollWidth,
                         height: exportClone.scrollHeight,
-                        windowWidth: exportClone.scrollWidth,
-                        windowHeight: exportClone.scrollHeight,
+                        windowWidth: window.innerWidth,
+                        windowHeight: window.innerHeight,
                         scrollX: 0,
                         scrollY: 0,
+                        backgroundColor: null,
                         scale
                     });
 
-                    return fullCanvas;
+                    return trimCanvasToContent(fullCanvas);
                 } finally {
                     renderHost.remove();
                 }
@@ -870,7 +934,7 @@
             function downloadCanvas(canvas) {
                 const link = document.createElement("a");
                 link.download = "welcoming-pine.jpg";
-                link.href = canvas.toDataURL("image/jpeg", 0.95);
+                link.href = canvas.toDataURL("image/jpeg", 0.98);
                 link.click();
             }
 
@@ -883,7 +947,7 @@
                         }
 
                         resolve(blob);
-                    }, "image/jpeg", 0.95);
+                    }, "image/jpeg", 0.98);
                 });
             }
 
