@@ -569,6 +569,13 @@
                 function11: document.getElementById('group11'),
                 function12: document.getElementById('group12'),
             };
+            const rightPanel = document.getElementById("right");
+
+            function setExperienceStarted(started) {
+                rightPanel.classList.toggle("is-started", started);
+            }
+
+            setExperienceStarted(false);
 
             Object.keys(mapping).forEach(function(key) {
                 const checkbox = document.getElementById(key);
@@ -606,6 +613,10 @@
                             inline: "center",
                             block: "nearest"
                         });
+
+                        if (key === "function1") {
+                            setExperienceStarted(true);
+                        }
 
                     } else {
                         target.style.visibility = "hidden";
@@ -967,6 +978,23 @@
                     return croppedCanvas;
                 }
 
+                function resolveExportScale(width, height, preferredScale = 2) {
+                    const maxDimension = 8192;
+                    const maxPixels = 40000000;
+                    const dimensionScale = Math.min(
+                        maxDimension / Math.max(width, 1),
+                        maxDimension / Math.max(height, 1)
+                    );
+                    const pixelScale = Math.sqrt(
+                        maxPixels / Math.max(width * height, 1)
+                    );
+
+                    return Math.max(
+                        1,
+                        Math.min(preferredScale, dimensionScale, pixelScale)
+                    );
+                }
+
                 const renderHost = document.createElement("div");
                 renderHost.style.position = "fixed";
                 renderHost.style.left = "-100000px";
@@ -977,8 +1005,8 @@
 
                 const exportClone = target.cloneNode(true);
                 exportClone.style.overflow = "visible";
-                exportClone.style.width = target.scrollWidth + "px";
-                exportClone.style.height = target.scrollHeight + "px";
+                exportClone.style.width = "max-content";
+                exportClone.style.height = "auto";
                 exportClone.style.maxWidth = "none";
                 exportClone.scrollLeft = 0;
                 exportClone.scrollTop = 0;
@@ -991,12 +1019,25 @@
                 document.body.appendChild(renderHost);
 
                 await waitForImages(exportClone);
-                const scale = 2;
+                const exportWidth = Math.max(
+                    exportClone.scrollWidth,
+                    exportClone.offsetWidth,
+                    target.clientWidth
+                );
+                const exportHeight = Math.max(
+                    exportClone.scrollHeight,
+                    exportClone.offsetHeight,
+                    target.clientHeight
+                );
+                const scale = resolveExportScale(exportWidth, exportHeight, 2);
+
+                exportClone.style.width = `${exportWidth}px`;
+                exportClone.style.height = `${exportHeight}px`;
 
                 try {
                     const fullCanvas = await html2canvas(exportClone, {
-                        width: exportClone.scrollWidth,
-                        height: exportClone.scrollHeight,
+                        width: exportWidth,
+                        height: exportHeight,
                         windowWidth: window.innerWidth,
                         windowHeight: window.innerHeight,
                         scrollX: 0,
@@ -1025,9 +1066,14 @@
             }
 
             function updateControlsScale() {
-                const rightPanel = document.getElementById("right");
                 const crownPanel = rightPanel.querySelector(".crown");
                 const controlsStack = document.getElementById("controls-stack");
+
+                if (!rightPanel.classList.contains("is-started")) {
+                    controlsStack.style.transform = "scale(1)";
+                    controlsStack.style.height = "auto";
+                    return;
+                }
 
                 controlsStack.style.transform = "scale(1)";
                 controlsStack.style.height = "auto";
@@ -1161,6 +1207,10 @@
                     return;
                 }
 
+                if (!rightPanel.classList.contains("is-started")) {
+                    return;
+                }
+
                 const target = document.querySelector(".left");
                 setInteractionLock(true);
                 let exportCanvas = null;
@@ -1196,6 +1246,10 @@
 
             function resetExperience() {
                 if (isInteractionLocked) {
+                    return;
+                }
+
+                if (!rightPanel.classList.contains("is-started")) {
                     return;
                 }
 
@@ -1247,6 +1301,7 @@
                 currentDownloadUrl = null;
 
                 setSaveStatus("");
+                setExperienceStarted(false);
                 container.scrollLeft = 0;
                 container.dispatchEvent(new Event("scroll"));
                 requestAnimationFrame(updateControlsScale);

@@ -161,6 +161,12 @@
     flex-shrink: 0;
 }
 
+.right:not(.is-started) .controls-stack {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 body.app-locked .right > * {
     pointer-events: none;
 }
@@ -172,6 +178,7 @@ body.app-locked .right > * {
         gap: 12px;
         transform-origin: top right;
         pointer-events: none;
+        transition: opacity 0.24s ease, visibility 0.24s ease;
     }
 
     .controls-stack > * {
