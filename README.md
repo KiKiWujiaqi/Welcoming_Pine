@@ -32,13 +32,7 @@
 npm install
 ```
 
-2. 复制环境变量模板并填写阿里云 OSS 配置：
-
-```bash
-cp .env.example .env
-```
-
-如果你在 Windows PowerShell 中操作，也可以直接新建 `.env` 文件，并按 `.env.example` 的内容填写。
+2. 在项目根目录新建 `.env` 文件，并把 `.env.example` 的内容复制进去，再填写你自己的 OSS 配置。
 
 3. 启动服务：
 
