@@ -725,7 +725,7 @@ body.app-locked .right > * {
 /* 单个图片-25张 */
     #function33-img{
         position:absolute;
-        width: 36vw;
+        width: 20vw;
         top: -20vh;
         left: 0vw;
     }
@@ -753,7 +753,7 @@ body.app-locked .right > * {
 
     #function32-img{
         position:absolute;
-        width: 24vw;
+        width: 18vw;
         top: -20vh;
         left: 28vw;
     }
@@ -767,7 +767,7 @@ body.app-locked .right > * {
 
     #function30-img{
         position:absolute;
-        width: 40vw;
+        width: 30vw;
         top: -8vh;
         left: -14vw;
     }
@@ -783,13 +783,13 @@ body.app-locked .right > * {
         position:absolute;
         width: 20vw;
         top: 2vh;
-        left: 4vw;
+        left: 0vw;
     }
 
     #function22-img{
         position:absolute;
         width: 30vw;
-        top: -14vh;
+        top: -5vh;
         left: 6vw;
     }
 
@@ -1127,7 +1127,7 @@ body.app-locked .right > * {
 
     .branch_11 {
         top: -25vh;
-        left: -2vw;
+        left: 0vw;
         height: 26vh;
     }   
 
@@ -1138,8 +1138,8 @@ body.app-locked .right > * {
 
     .branch_12 {
         top: 0vh;
-        left: -1vw;
-        width: 20vw;
+        left: 0vw;
+        width: 40vw;
     }       
 
     .branch_12 .branch {
