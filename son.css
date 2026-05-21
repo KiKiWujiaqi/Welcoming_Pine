@@ -20,7 +20,7 @@
     }
 
     h1 {
-        font-size: 18px;
+        font-size: 14px;
         line-height: 1.2;
     }
 
@@ -31,7 +31,7 @@
     }
 
     p {
-        font-size: 18px;
+        font-size: 14px;
         line-height: 1.2;
     }
 
@@ -58,8 +58,8 @@
 
 
     button {
-        width: 40px;
-        height: 40px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         border: 1px solid #ffffff;
         background: transparent;
@@ -71,7 +71,7 @@
         -webkit-appearance: none;
         appearance: none;
         
-        width: 200px;
+        width: 160px;
         height: 20px;
         background: transparent;
         cursor: pointer;
@@ -92,10 +92,10 @@
         -webkit-appearance: none;
         appearance: none;
 
-        width: 40px;
-        height: 40px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
-        margin-bottom: 30px;
+        margin-bottom: 0px;
 
         background: #000000;
         border: 1px solid #ffffff;
@@ -117,7 +117,7 @@
         height: 100vh;
         min-height: 100vh;
         width: 100%;
-        padding:20px;
+        padding:14px;
         box-sizing: border-box;
     }
 
@@ -144,7 +144,6 @@
     bottom: 0;
 
     height: calc(100vh - 40px);
-    /* width: 20vw; */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -154,11 +153,14 @@
     box-sizing: border-box;
     z-index: 20;
     pointer-events: none;
+
+    overflow-y: auto;
+    overflow-x: visible;
 }
 
 .right > * {
     pointer-events: auto;
-    flex-shrink: 0;
+    flex: 0 0 auto;
 }
 
 .right:not(.is-started) .controls-stack {
@@ -171,19 +173,32 @@ body.app-locked .right > * {
     pointer-events: none;
 }
 
-    .controls-stack {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 12px;
-        transform-origin: top right;
-        pointer-events: none;
-        transition: opacity 0.24s ease, visibility 0.24s ease;
-    }
+.controls-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    transform-origin: top right;
+    pointer-events: none;
+    transition: opacity 0.24s ease, visibility 0.24s ease;
 
-    .controls-stack > * {
-        pointer-events: auto;
-    }
+    flex: 0 0 auto;
+}
+
+.controls-stack > * {
+    pointer-events: auto;
+    flex: 0 0 auto;
+}
+
+.pattern,
+.blur,
+.crack,
+.manipulation,
+.save,
+.reset-control {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
 
 /* 不同的操作功能 */
 /* 树冠-文本的增加链接图片组的增加 */
@@ -205,8 +220,8 @@ body.app-locked .right > * {
     .pattern {
         background-color: rgb(0, 0, 0);
         width: 200px;
-        height: 60px;
-        padding: 20px;
+        height: 80px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
@@ -230,8 +245,8 @@ body.app-locked .right > * {
     .blur {
         background-color: rgb(0, 0, 0);
         width: 200px;
-        height: 60px;
-        padding: 20px;
+        height: 80px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         margin-left: auto;
@@ -254,7 +269,7 @@ body.app-locked .right > * {
 
     .crack {
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         width: 120px;
         height: 120px;
@@ -271,14 +286,14 @@ body.app-locked .right > * {
         width: 120px;
         height: 120px;
         text-align: right;
-
+        align-items: left;
         margin-left: auto;
         border-radius: 10px;
     }   
 
     .save {
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         width: 120px;
         height: 120px;
@@ -292,7 +307,7 @@ body.app-locked .right > * {
 
     .reset-control {
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         width: 120px;
         height: 120px;
@@ -308,7 +323,7 @@ body.app-locked .right > * {
     .manipulation h1,
     .save h1,
     .reset-control h1 {
-        font-size: 18px;
+        font-size: 16px;
         line-height: 1.2;
         margin: 0 0 8px;
     }
@@ -472,9 +487,10 @@ body.app-locked .right > * {
     .story .part0{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
+
         border-radius: 10px;
     }
 
@@ -482,39 +498,38 @@ body.app-locked .right > * {
     #function1:checked ~ .story .part1{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
-
-        margin-right: 200px;
     }
 
     #function2:checked ~ .story .part2{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
 
-        margin-right: 400px;
     }
 
     #function3:checked ~ .story .part3{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
+
+        margin-right: 300px;
 
     }
 
     #function4:checked ~ .story .part4{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
@@ -525,30 +540,28 @@ body.app-locked .right > * {
     #function5:checked ~ .story .part5{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
-
-        margin-right: 300px;
 
     }
 
     #function6:checked ~ .story .part6{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
 
-        margin-right: 400px;
+        margin-right: 200px;
     }
 
     #function7:checked ~ .story .part7{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
@@ -559,29 +572,27 @@ body.app-locked .right > * {
     #function8:checked ~ .story .part8{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
 
-        margin-right: 500px;
     }
 
     #function9:checked ~ .story .part9{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
 
-        margin-right: 200px;
     }
 
     #function10:checked ~ .story .part10{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
@@ -590,12 +601,12 @@ body.app-locked .right > * {
     #function11:checked ~ .story .part11{
         display:inline;
         background-color: rgb(0, 0, 0);
-        padding: 20px;
+        padding: 14px;
         color: #ffffff;
         text-align: right;
         border-radius: 10px;
 
-        margin-right: 400px;
+        margin-right: 220px;
     }    
 
     .parallax {

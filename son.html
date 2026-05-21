@@ -514,62 +514,61 @@
                     <label for="function3">
                     鸟兽
                     </label>
-                    <br>
                 </span>
 
                 <span class="part part3">
                     远处看像一幅俗气的
                     <label for="function4">
-                    山水画
+                    松鹤延年
                     </label><br>
                 </span>
 
                 <span class="part part4">
                     黄山是所有
                     <label for="function5">
-                    文人
+                    文人和农民
                     </label>
-                    所描述的黄山<br>
+                    堆积的山脉
                 </span>
 
                 <span class="part part5">
-                    是我们未来的
+                    堆积的文本形成我们未来
                     <label for="function6">
                     祖先
                     </label><br>
                 </span>
 
                 <span class="part part6">
-                    是我们祖先的
+                    它们自己
                     <label for="function7">
-                    未来
-                    </label><br>
-                </span>
+                    繁殖
+                    </label>
+                </span><br>
 
                 <span class="part part7">
-                    城门上的石雕哼着戏曲
+                    孕育出
                     <label for="function8">
-                    戏曲
-                    </label><br>
+                    曲调
+                    </label>
                 </span>
 
                 <span class="part part8">
                     声调漂到了旁边的
                     <label for="function9">
                     村庄
-                    </label><br>
-                </span>
+                    </label>
+                </span><br>
 
                 <span class="part part9">
-                    村庄里有鱼灯
+                    村庄里有
                     <label for="function10">
                     鱼灯
                     </label>
-                    闪烁<br>
+                    闪烁
                 </span>
 
                 <span class="part part10">
-                    照着牌坊，牌匾和墓碑
+                    照着牌坊，
 
                     <label for="function11">
                     墓碑
@@ -637,9 +636,9 @@
                 checkbox.addEventListener('change', function() {
                     if (checkbox.checked) {
                         target.style.visibility = "visible";
-                        label.style.backgroundColor = "rgb(98, 98, 98)";
-                        label.style.color = "white";
-                        label.style.textDecoration = "underline 2px white";
+                        label.style.backgroundColor = "white";
+                        label.style.color = "black";
+                        label.style.textDecoration = "underline 2px black";
                         label.classList.add("is-active");
 
                 target.scrollIntoView({
@@ -654,8 +653,8 @@
 
                     } else {
                         target.style.visibility = "hidden";
-                        label.style.color = "white";
-                        label.style.backgroundColor = "rgb(98, 98, 98)";
+                        label.style.color = "black";
+                        label.style.backgroundColor = "white";
                         label.style.textDecoration = "underline 2px white";
                         label.classList.remove("is-active");
                     }
@@ -670,7 +669,7 @@
         <div class="controls-stack" id="controls-stack">
 <!-- 自定义宽度 Customization width -->
         <div class="pattern">
-            <h1>枝干 <br> Pattern</h1>
+            <h1>枝干 <br> </h1><h1>Pattern</h1>
             <input type="range" id="branch_width" min="0" max="100" step="10" value="0">
 
             <script>
@@ -895,7 +894,7 @@
 
 <!-- 视角/图片改变 manipulation/change image -->
         <div class="manipulation">
-            <h1>视角<br>Manipulation</h1>                                       
+            <h1>视角<br>Viewpoint</h1>                                       
             <button onclick="shuffleImagesInsideGroups()" id="button">
             </button>
             <script>
