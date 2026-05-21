@@ -1,4 +1,3 @@
-const crypto = require("crypto");
 const path = require("path");
 
 const OSS = require("ali-oss");
@@ -70,7 +69,17 @@ function buildObjectKey(extension) {
     ""
   );
   const useDatePath = parseBooleanEnv(process.env.OSS_OBJECT_DATE_PATH, true);
-  const fileName = `${crypto.randomUUID()}${extension}`;
+  const now = new Date();
+  const timestamp = [
+    now.getUTCFullYear(),
+    String(now.getUTCMonth() + 1).padStart(2, "0"),
+    String(now.getUTCDate()).padStart(2, "0"),
+    "-",
+    String(now.getUTCHours()).padStart(2, "0"),
+    String(now.getUTCMinutes()).padStart(2, "0"),
+    String(now.getUTCSeconds()).padStart(2, "0"),
+  ].join("");
+  const fileName = `Welcoming_Pine-${timestamp}${extension}`;
 
   if (!prefix) {
     return fileName;
@@ -79,8 +88,6 @@ function buildObjectKey(extension) {
   if (!useDatePath) {
     return `${prefix}/${fileName}`;
   }
-
-  const now = new Date();
   const datePath = [
     now.getUTCFullYear(),
     String(now.getUTCMonth() + 1).padStart(2, "0"),

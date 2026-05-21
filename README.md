@@ -34,6 +34,9 @@
 - 关键词标签增强了呼吸提示，`缝隙 / 视角 / 保存 / 重置` 的原点按钮补充了 hover 反馈
 - 点击 `save` 后会临时锁定其它交互，直到二维码卡片弹出并点击卡片内 `关闭` 后才恢复
 - 页面初始只显示第一行诗词和第一个关键词标签，点击第一个关键词后其它控制项才会出现
+- OSS 上传文件名改为 `Welcoming_Pine-YYYYMMDD-HHmmss`，更便于现场整理和追踪
+- 导出不再主动降低分辨率，优先保留图片清晰度
+- 二维码卡片文案已调整为 `扫码获取图像`，并增加了 `请横屏观看` 提示
 
 ## 本地运行
 
@@ -79,6 +82,7 @@ http://192.168.1.23:3000
 
 - 当前版本依赖后端接口，不再建议直接双击 `son.html` 运行。
 - `html2canvas` 和二维码库目前仍通过 CDN 加载；如果现场网络不稳定，后续建议改为本地托管。
+- 如果修改了 `server.js` 中的上传命名或 OSS 相关逻辑，需要重启 Node 服务后才会生效。
 
 ## 使用方式
 
@@ -182,7 +186,7 @@ OSS_PUBLIC_BASE_URL=https://lirujinzhi-web.oss-cn-beijing.aliyuncs.com
 以上配置会将文件上传到：
 
 ```text
-lirujinzhi-web / media/welcoming-pine-result / YYYY-MM-DD / <uuid>.jpg
+lirujinzhi-web / media/welcoming-pine-result / YYYY-MM-DD / Welcoming_Pine-YYYYMMDD-HHmmss.jpg
 ```
 
 ## 仓库注意事项

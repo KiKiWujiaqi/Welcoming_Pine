@@ -53,6 +53,7 @@ git switch main
   - 所有 `.parallax` 元素的 `transform` 被重置为 `translateX(0px)`
 - 使用 `html2canvas` 渲染后，再做内容裁切
 - 裁切完成后补白底
+- 当前导出固定使用 `scale = 2`，不再主动降分辨率
 
 ## 已确认过的坑
 
@@ -116,7 +117,7 @@ OSS_OBJECT_PREFIX=media/welcoming-pine-result
 以上会生成：
 
 ```text
-media/welcoming-pine-result/<uuid>.jpg
+media/welcoming-pine-result/Welcoming_Pine-YYYYMMDD-HHmmss.jpg
 ```
 
 错误例子：
@@ -128,8 +129,9 @@ OSS_BUCKET=lirujinzhi-web/media/
 ### 路径策略
 
 - 默认带日期目录
-- 默认生成 `prefix/YYYY-MM-DD/uuid.ext`
-- 如果显式设置 `OSS_OBJECT_DATE_PATH=false`，才会退回到 `prefix/uuid.ext`
+- 默认生成 `prefix/YYYY-MM-DD/Welcoming_Pine-YYYYMMDD-HHmmss.ext`
+- 如果显式设置 `OSS_OBJECT_DATE_PATH=false`，才会退回到 `prefix/Welcoming_Pine-YYYYMMDD-HHmmss.ext`
+- 修改 `server.js` 里的命名规则后，需要重启 Node 服务才会生效
 
 ## 当前期望行为
 
@@ -138,6 +140,8 @@ OSS_BUCKET=lirujinzhi-web/media/
 - 上传到 OSS
 - 返回公开 URL
 - 前端展示二维码
+- 二维码卡片标题使用 `扫码获取图像`
+- 卡片中保留 `下载到本地`，并提示 `请横屏观看`
 - 保存流程开始后，页面其它交互会被锁定
 - 二维码弹层出现后，只有点击卡片内 `关闭` 才会恢复操作
 
