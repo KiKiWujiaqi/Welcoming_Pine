@@ -617,9 +617,6 @@
 
                 target.style.visibility = "hidden";
 
-                label.style.color = "white";
-                label.style. textunderline = "2px solid white";
-
                 // 鼠标移到关键词：临时出现
                 label.addEventListener("mouseenter", function () {
                     target.style.visibility = "visible";
@@ -636,16 +633,13 @@
                 checkbox.addEventListener('change', function() {
                     if (checkbox.checked) {
                         target.style.visibility = "visible";
-                        label.style.backgroundColor = "white";
-                        label.style.color = "black";
-                        label.style.textDecoration = "underline 2px black";
                         label.classList.add("is-active");
 
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    inline: "center",
-                    block: "nearest"
-                });
+                        target.scrollIntoView({
+                            behavior: "smooth",
+                            inline: "center",
+                            block: "nearest"
+                        });
 
                         if (key === "function1") {
                             setExperienceStarted(true);
@@ -653,9 +647,6 @@
 
                     } else {
                         target.style.visibility = "hidden";
-                        label.style.color = "black";
-                        label.style.backgroundColor = "white";
-                        label.style.textDecoration = "underline 2px white";
                         label.classList.remove("is-active");
                     }
 

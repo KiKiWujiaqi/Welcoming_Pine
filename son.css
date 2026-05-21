@@ -486,18 +486,15 @@ body.app-locked .right > * {
         border-radius: 10px;
         transform-origin: center;
         animation: labelBreath 1.9s ease-in-out infinite;
+        box-shadow: none;
+        text-decoration: none;
         transition: background-color 0.2s ease, transform 0.2s ease,
-            box-shadow 0.2s ease;
-    }
-
-    /* hover */
-    label:hover{
-        background:rgb(0, 0, 0);
-        animation-play-state: paused;
-        transform: scale(1.08);
+            box-shadow 0.2s ease, color 0.2s ease, text-decoration-color 0.2s ease;
     }
 
     label.is-active {
+        color: rgb(0, 0, 0);
+        text-decoration: underline 2px black;
         animation: none;
         box-shadow: none;
         transform: scale(1);
